@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = process.env.VUE_ENV === 'server' ? `http://localhost:${process.env.API_PORT}` : '/api';
 
 export function fetchPosts() {
   return axios.get('/posts').then(
