@@ -11,6 +11,7 @@ export function createRouter() {
     mode: 'history',
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
+    base: process.env.NODE_ENV === 'production' ? 'blog' : '',
     routes: [
       { path: '/', component: Home },
       { path: '/detail/:filePath', component: Detail }
