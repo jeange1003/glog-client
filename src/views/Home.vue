@@ -1,7 +1,7 @@
 <template>
     <div>
         <h5 v-for="post in posts" :key="post.path">
-            <router-link :to="`/detail/${encodeURIComponent(post.path)}`">
+            <router-link :to="{ name: 'detail', params: { filePath: encodeURIComponent(post.path) }}">
                 {{ post.title }}
             </router-link>
         </h5>
