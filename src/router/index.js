@@ -5,7 +5,7 @@ Vue.use(Router);
 
 const Home = () => import('../views/Home.vue');
 const Detail = () => import('../views/Detail.vue');
-const base = '/blog'
+const base = process.env.NODE_ENV === 'production' ? 'blog' : '';
 
 export function createRouter() {
   return new Router({
