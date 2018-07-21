@@ -16,6 +16,7 @@ const serverInfo =
 
 // const baseRoute = express()
 const app = express()
+const baseRoute = (process.env.BASE_ROUTE ? process.env.BASE_ROUTE : '')
 
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -66,10 +67,10 @@ const serve = (path, cache) => express.static(resolve(path), {
 
 app.use(compression({ threshold: 0 }))
 // app.use(favicon('./public/logo-48.png'))
-app.use('/dist', serve('./dist', true))
-app.use('/public', serve('./public', true))
-app.use('/manifest.json', serve('./manifest.json', true))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.use(baseRoute + '/dist', serve('./dist', true))
+app.use(baseRoute + '/public', serve('./public', true))
+app.use(baseRoute + '/manifest.json', serve('./manifest.json', true))
+app.use(baseRoute + '/service-worker.js', serve('./dist/service-worker.js'))
 
 // since this app has no user-specific content, every page is micro-cacheable.
 // if your app involves user-specific content, you need to implement custom
