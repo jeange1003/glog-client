@@ -120,5 +120,5 @@ app.get('*', isProd ? render : (req, res) => {
 const port = process.env.PORT || 8080
 baseRoute.use((process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''), app)
 baseRoute.listen(port, () => {
-  console.log(`server started at localhost:${port}`)
+  console.log(`server started at localhost:${port}${(process.env.BASE_ROUTE ? '/' + process.env.BASE_ROUTE : '')}`)
 })
