@@ -12,7 +12,7 @@ module.exports = {
   //   : '#cheap-module-source-map',
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, `..${process.env.SUBDIRECTORY === 'production' ? '/blog' : '')}/dist`),
+    path: path.resolve(__dirname, `..${process.env.SUBDIRECTORY === 'production' ? '/blog' : ''}/dist`),
     publicPath: (process.env.NODE_ENV === 'production' ? '/blog' : '') + '/dist/',
     filename: '[name].[chunkhash].js'
   },
