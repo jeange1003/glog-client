@@ -1,4 +1,8 @@
-# blog client
+# Blog client
+
+only markdown，no html
+
+fetch posts from server api, server code：https://github.com/jeange1003/glog-server
 
 # env: 
 config in pm2 ecosystem.config.js
@@ -15,3 +19,7 @@ pm2 init
 config [https://pm2.io/doc/en/runtime/guide/ecosystem-file/](ecosystem.config.js)
 
 pm2 start ecosystem.config.js --env production
+
+# reload
+
+pm2 reload ecosystem.config.js --env production
