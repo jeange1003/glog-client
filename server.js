@@ -14,7 +14,7 @@ const serverInfo =
   `express/${require('express/package.json').version} ` +
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
-const baseRoute = express()
+// const baseRoute = express()
 const app = express()
 
 function createRenderer (bundle, options) {
@@ -80,6 +80,7 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
 
 function render (req, res) {
+  console.log(req.url)
   const s = Date.now()
 
   res.setHeader("Content-Type", "text/html")
@@ -118,7 +119,8 @@ app.get('*', isProd ? render : (req, res) => {
 })
 
 const port = process.env.PORT || 8080
-baseRoute.use((process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''), app)
-baseRoute.listen(port, () => {
-  console.log(`server started at localhost:${port}${(process.env.BASE_ROUTE ? '/' + process.env.BASE_ROUTE : '')}`)
+// baseRoute.use((process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''), app)
+// baseRoute.use('', app)
+app.listen(port, () => {
+  console.log(`server started at localhost:${port}${(process.env.BASE_ROUTE ? process.env.BASE_ROUTE : '')}`)
 })
