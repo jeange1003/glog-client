@@ -14,6 +14,7 @@ const serverInfo =
   `express/${require('express/package.json').version} ` +
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
+const baseRoute = express()
 const app = express()
 
 function createRenderer (bundle, options) {
@@ -117,6 +118,7 @@ app.get('*', isProd ? render : (req, res) => {
 })
 
 const port = process.env.PORT || 8080
-app.listen(port, () => {
+baseRoute.use((process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''), app)
+baseRoute.listen(port, () => {
   console.log(`server started at localhost:${port}`)
 })

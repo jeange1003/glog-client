@@ -12,8 +12,8 @@ module.exports = {
   //   : '#cheap-module-source-map',
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, `..${process.env.NODE_ENV === 'production' ? '/blog' : ''}/dist`),
-    publicPath: (process.env.NODE_ENV === 'production' ? '/blog' : '') + '/dist/',
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: (process.env.BASE_ROUTE ? process.env.BASE_ROUTE : '') + '/dist/',
     filename: '[name].[chunkhash].js'
   },
   resolve: {
