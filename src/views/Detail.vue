@@ -11,13 +11,13 @@ export default {
     post() {
       const postContent = this.$store.state.currentPost;
       if (postContent) {
-        return converter.makeHtml(postContent);
+        return converter.makeHtml(postContent.content);
       }
       return '';
     }
   },
   asyncData({ store, route }) {
-    return store.dispatch('FETCH_POST', route.params.filePath);
+    return store.dispatch('FETCH_POST', route.params.id);
   }
 };
 </script>

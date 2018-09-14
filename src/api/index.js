@@ -15,8 +15,8 @@ export function fetchPosts() {
   );
 }
 
-export function fetchPost(filePath) {
-  return axios.get(`posts/${encodeURIComponent(filePath)}`).then(
+export function fetchPost(id) {
+  return axios.get(`posts/${id}`).then(
     res => {
       if (res.status === 200) {
         return Promise.resolve(res.data);
@@ -26,4 +26,15 @@ export function fetchPost(filePath) {
       throw new Error('error');
     }
   );
+}
+
+export function creatPost({title, content}) {
+  return axios.put('/posts', {title, content}).then(res => {
+    if (res.status === 200) {
+      return Promise.resolve(res.data)
+    }
+  },
+  () => {
+    throw new Error('error')
+  })
 }

@@ -12,7 +12,7 @@ const readFile = (fs, file) => {
     return fs.readFileSync(path.join(clientConfig.output.path, file), 'utf-8');
   } catch (e) {}
 };
-
+const baseRoute = process.env.BASE_ROUTE ? process.env.BASE_ROUTE : '';
 module.exports = function setupDevServer(app, templatePath, cb) {
   let bundle;
   let template;
@@ -73,7 +73,14 @@ module.exports = function setupDevServer(app, templatePath, cb) {
   app.use(
     require('webpack-hot-middleware')(clientCompiler, { heartbeat: 5000 })
   );
-  app.use('/api', proxy({target: `http://localhost:${process.env.API_PORT}/`, changeOrigin: true, pathRewrite: {'^/api' : ''}}));
+  app.use(
+    baseRoute + '/api',
+    proxy({
+      target: `http://localhost:${process.env.API_PORT}/`,
+      changeOrigin: true,
+      pathRewrite: { [`^${baseRoute}/api`]: '' }
+    })
+  );
   // app.use('/api', (req, res, next) => {
   //   console.log(req, res);
   //   // res.send('ddddddd')

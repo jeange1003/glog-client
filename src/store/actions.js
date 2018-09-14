@@ -1,6 +1,7 @@
 import {
   fetchPosts,
-  fetchPost
+  fetchPost,
+  creatPost
 } from '../api';
 
 export default {
@@ -9,9 +10,12 @@ export default {
       commit('SET_POST_LIST', posts);
     });
   },
-  FETCH_POST: ({ commit }, filePath) => {
-    return fetchPost(filePath).then(post => {
+  FETCH_POST: ({ commit }, id) => {
+    return fetchPost(id).then(post => {
       commit('SET_POST_DETAIL', post);
     });
+  },
+  CREATE_POST: (context, {title, content}) => {
+    return creatPost({title, content})
   }
 };
