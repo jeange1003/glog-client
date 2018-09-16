@@ -1,4 +1,5 @@
 import axios from 'axios';
+import User from '../util/user'
 
 axios.defaults.baseURL = process.env.VUE_ENV === 'server' ? `http://localhost:${process.env.API_PORT}` : `${(process.env.BASE_ROUTE ? process.env.BASE_ROUTE : '')}/api`;
 
@@ -30,6 +31,28 @@ export function fetchPost(id) {
 
 export function creatPost({title, content}) {
   return axios.put('/posts', {title, content}).then(res => {
+    if (res.status === 200) {
+      return Promise.resolve(res.data)
+    }
+  },
+  () => {
+    throw new Error('error')
+  })
+}
+
+export function deletePost({id}) {
+  const token = User.getToken();
+  return axios({
+    url: `/posts/${id}`,
+    method: 'delete',
+    headers: {
+      token
+    }
+  })
+}
+
+export function login({password}) {
+  return axios.post('/user/login', {password}).then(res => {
     if (res.status === 200) {
       return Promise.resolve(res.data)
     }
