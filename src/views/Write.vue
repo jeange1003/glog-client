@@ -16,21 +16,43 @@ export default {
   data() {
     return {
       title: '',
-      content: ''
+      content: '',
+      id: ''
     };
   },
   computed: {
-      previewContent() {
-          return converter.makeHtml(this.content)
-      }
+    previewContent() {
+      return converter.makeHtml(this.content);
+    }
   },
   methods: {
     save() {
-      this.$store
-        .dispatch('CREATE_POST', { title: this.title, content: this.content })
-        .then(() => {
-          this.$router.push({ name: 'home' });
+      if (this.id) {
+        this.$store.dispatch('UPDATE_POST', {
+          id: this.id,
+          title: this.title,
+          content: this.content
         });
+      } else {
+        this.$store
+          .dispatch('CREATE_POST', { title: this.title, content: this.content })
+          .then(() => {
+            this.$router.push({ name: 'home' });
+          });
+      }
+    }
+  },
+  asyncData({ store, route }) {
+    if (route.params.id) {
+      return store.dispatch('FETCH_POST', route.params.id);
+    }
+  },
+  created() {
+    const currentPost = this.$store.state.currentPost;
+    if (currentPost) {
+      this.id = currentPost._id;
+      this.title = currentPost.title;
+      this.content = currentPost.content;
     }
   }
 };

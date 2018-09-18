@@ -1,27 +1,30 @@
 <template>
     <div>
+        <router-link class="write" v-if="isLogin"  :to="{name: 'write'}">
+          write
+        </router-link>
         <h5 v-for="post in posts" :key="post.path" class="post">
             <router-link :to="{ name: 'detail', params: { id: encodeURIComponent(post._id) }}">
                 {{ post.title }}
             </router-link>
-            <button v-if="isLogin" class="post-delete" @click="deletePost(post._id)">delete</button>
+            <span v-if="isLogin" class="post-action">
+              <button @click="editPost(post._id)">edit</button>
+              <button @click="deletePost(post._id)">delete</button>
+            </span>
         </h5>
-        <router-link v-if="isLogin"  :to="{name: 'write'}">
-          write
-        </router-link>
     </div>
 </template>
 
 <script>
 import { deletePost } from '../api';
-import User from '../util/user.js'
+import User from '../util/user.js';
 
 export default {
   data() {
     return {
       isLogin: false,
       hoverId: ''
-    }
+    };
   },
   computed: {
     posts() {
@@ -30,22 +33,33 @@ export default {
   },
   methods: {
     deletePost(id) {
-      deletePost({id}).then(() => this.$store.dispatch('FETCH_POST_LIST'))
+      deletePost({ id }).then(() => this.$store.dispatch('FETCH_POST_LIST'));
+    },
+    editPost(id) {
+      this.$router.push({
+        name: 'write',
+        params: {
+          id
+        }
+      });
     }
   },
   asyncData({ store }) {
     return store.dispatch('FETCH_POST_LIST');
   },
   mounted() {
-    this.isLogin = User.isLogin()
+    this.isLogin = User.isLogin();
   }
 };
 </script>
 <style lang="stylus">
+.write
+  text-align right
+  display block
 a
   text-decoration none
-.post:hover>.post-delete
+.post:hover>.post-action
   display inline
-.post-delete
+.post-action
   display none
 </style>

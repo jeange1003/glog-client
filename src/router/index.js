@@ -18,7 +18,8 @@ export function createRouter() {
     routes: [
       { name: 'home', path: base + '/', component: Home },
       { name: 'detail', path: base + '/detail/:id', component: Detail },
-      { name: 'write', path: base + '/write', component: Write },
+      { name: 'new', path: base + '/write', component: Write },
+      { name: 'write', path: base + '/write/:id', component: Write },
       { name: 'login', path: base + '/login', component: Login },
     ]
   });
