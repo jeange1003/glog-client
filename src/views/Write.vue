@@ -1,16 +1,25 @@
 <template>
-    <div class="write">
-        标题：<input type="text" v-model="title" />
-        <div class="content">
-        内容：<textarea v-model="content" rows="50"></textarea>
-        预览：<div class="preview" v-html="previewContent"></div>
-        </div>
-        <button @click="save">保存</button>
+  <div class="write">
+    <label>标题：</label>
+    <input class="title-input" type="text" v-model="title" />
+    <div class="tool">
+      <input type="file" @change="fileChangeHandler" />
     </div>
+    <div class="content">
+      <label>内容：</label>
+      <textarea v-model="content" rows="50"></textarea>
+      <label>预览：</label>
+      <div class="preview" v-html="previewContent"></div>
+    </div>
+    <button @click="save">保存</button>
+  </div>
 </template>
 
 <script>
 import showdown from 'showdown';
+import User from '../util/user.js';
+import { upload } from '../api/index.js'
+
 const converter = new showdown.Converter();
 export default {
   data() {
@@ -40,6 +49,16 @@ export default {
             this.$router.push({ name: 'home' });
           });
       }
+    },
+    fileChangeHandler(e) {
+      const files = e.target.files
+      if (files && files.length > 0) {
+        const file = files[0]
+        upload({file}).then(url => {
+          console.log('url', url)
+          this.content += `![](${url})`
+        })
+      }
     }
   },
   asyncData({ store, route }) {
@@ -62,13 +81,15 @@ export default {
 .write
   display flex
   flex-direction column
+  width 1024px
+  margin auto
   .content
+    margin-top 2em
     display flex
-    > *
-      width 45%
-      padding 2em
-    textarea
+    > label
+      width 4em
+    textarea, .preview
+      width 40%
       border 1px solid #DDD
-    .preview
       border 1px solid #DDD
 </style>

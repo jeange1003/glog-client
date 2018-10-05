@@ -1,10 +1,12 @@
-import axios from 'axios';
+import Axios from 'axios';
 import User from '../util/user';
 
-axios.defaults.baseURL =
-  process.env.VUE_ENV === 'server'
-    ? `http://localhost:${process.env.API_PORT}`
-    : `${process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''}/api`;
+const axios = Axios.create({
+  baseURL:
+    process.env.VUE_ENV === 'server'
+      ? `http://localhost:${process.env.API_PORT}`
+      : `${process.env.BASE_ROUTE ? process.env.BASE_ROUTE : ''}/api`
+});
 
 export function fetchPosts() {
   return axios.get('/posts').then(
@@ -102,4 +104,22 @@ export function login({ password }) {
       throw new Error('error');
     }
   );
+}
+
+export function upload({ file }) {
+  const token = User.getToken();
+  const uploadUrl = {
+    development: 'http://localhost:3099/files',
+    production: 'https://jeange.com/files'
+  }[process.env.NODE_ENV];
+  const data = new FormData();
+  data.append('file', file);
+  return Axios({
+    url: uploadUrl,
+    method: 'post',
+    headers: {
+      token
+    },
+    data
+  }).then(res => res.data);
 }
