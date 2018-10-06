@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link class="write" v-if="isLogin"  :to="{name: 'write'}">
+        <router-link class="write" v-if="isLogin"  :to="{name: 'new'}">
           write
         </router-link>
         <h5 v-for="post in posts" :key="post.path" class="post">
@@ -52,7 +52,7 @@ export default {
   }
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .write
   text-align right
   display block
