@@ -1,24 +1,25 @@
 <template>
   <div class="write">
-    <label>标题：</label>
-    <input class="title-input" type="text" v-model="title" />
+    <div class="title-section">
+      <label>标题：</label>
+      <input class="title-input" type="text" v-model="title" />
+    </div>
     <div class="tool">
       <input type="file" @change="fileChangeHandler" />
     </div>
+    <button @click="toggleEdit">{{ isEditing ? '预览' : '编辑' }}</button>
     <div class="content">
-      <label>内容：</label>
-      <textarea v-model="content" rows="50"></textarea>
-      <label>预览：</label>
-      <div class="preview" v-html="previewContent"></div>
+      <textarea v-if="isEditing" v-model="content"></textarea>
+      <div v-else class="preview" v-html="previewContent"></div>
     </div>
-    <button @click="save">保存</button>
+    <button class="save-btn" @click="save">保存</button>
   </div>
 </template>
 
 <script>
 import showdown from 'showdown';
 import User from '../util/user.js';
-import { upload } from '../api/index.js'
+import { upload } from '../api/index.js';
 
 const converter = new showdown.Converter();
 export default {
@@ -26,7 +27,8 @@ export default {
     return {
       title: '',
       content: '',
-      id: ''
+      id: '',
+      isEditing: true
     };
   },
   computed: {
@@ -51,14 +53,17 @@ export default {
       }
     },
     fileChangeHandler(e) {
-      const files = e.target.files
+      const files = e.target.files;
       if (files && files.length > 0) {
-        const file = files[0]
-        upload({file}).then(url => {
-          console.log('url', url)
-          this.content += `![](${url})`
-        })
+        const file = files[0];
+        upload({ file }).then(url => {
+          console.log('url', url);
+          this.content += `![](${url})`;
+        });
       }
+    },
+    toggleEdit() {
+      this.isEditing = !this.isEditing
     }
   },
   asyncData({ store, route }) {
@@ -81,15 +86,21 @@ export default {
 .write
   display flex
   flex-direction column
-  width 1024px
-  margin auto
+  .title-section
+    display flex
+    .title-input
+      width calc(100% - 5em)
+      font-size 16px
+      font-weight bold
   .content
     margin-top 2em
     display flex
-    > label
-      width 4em
     textarea, .preview
-      width 40%
+      height 60vh
+      width 100%
       border 1px solid #DDD
       border 1px solid #DDD
+      padding 1em
+  .save-btn
+    margin-top 1em
 </style>

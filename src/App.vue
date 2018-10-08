@@ -5,3 +5,13 @@
     </transition>
   </div>
 </template>
+<style lang="stylus">
+input[type='text']
+  padding 10px
+  border 1px solid #ccc
+  border-radius 4px
+button
+  width 6em
+  height 2.5em
+  background-color rgba(0,0,0,0)
+</style>

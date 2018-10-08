@@ -1,17 +1,19 @@
 <template>
     <div>
-        <router-link class="write" v-if="isLogin"  :to="{name: 'new'}">
+        <router-link class="write-link" v-if="isLogin"  :to="{name: 'new'}">
           write
         </router-link>
-        <h5 v-for="post in posts" :key="post.path" class="post">
-            <router-link :to="{ name: 'detail', params: { id: encodeURIComponent(post._id) }}">
-                {{ post.title }}
-            </router-link>
-            <span v-if="isLogin" class="post-action">
-              <button @click="editPost(post._id)">edit</button>
-              <button @click="deletePost(post._id)">delete</button>
-            </span>
-        </h5>
+        <div class="list-section">
+          <h5 v-for="post in posts" :key="post.path" class="post">
+              <router-link :to="{ name: 'detail', params: { id: encodeURIComponent(post._id) }}">
+                  {{ post.title }}
+              </router-link>
+              <span v-if="isLogin" class="post-action">
+                <button @click="editPost(post._id)">edit</button>
+                <button @click="deletePost(post._id)">delete</button>
+              </span>
+          </h5>
+        </div>
     </div>
 </template>
 
@@ -53,13 +55,23 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.write
+.write-link
   text-align right
   display block
+.list-section
+  margin auto
+  width 1080px
 a
   text-decoration none
+.post
+  height 2em
+  display flex
+  align-items center
 .post:hover>.post-action
   display inline
 .post-action
   display none
+  margin-left 1em
+  button 
+    margin-left .5em
 </style>
