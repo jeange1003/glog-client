@@ -95,12 +95,17 @@ export default {
   .content
     margin-top 2em
     display flex
+    margin auto
     textarea, .preview
-      height 60vh
-      width 100%
+      min-height 60vh
+      width 1080px
+      max-width 1080px
       border 1px solid #DDD
       border 1px solid #DDD
       padding 1em
+    .preview
+      >>> img
+        max-width 100%
   .save-btn
     margin-top 1em
 </style>
