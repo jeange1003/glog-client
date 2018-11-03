@@ -1,6 +1,9 @@
 <template>
-    <div v-html="post" class="content">
+  <div class="post">
+    <h1>{{ title }}</h1>
+    <div v-html="content">
     </div>
+  </div>
 </template>
 
 <script>
@@ -8,7 +11,10 @@ import showdown from 'showdown';
 const converter = new showdown.Converter();
 export default {
   computed: {
-    post() {
+    title() {
+      return this.$store.state.currentPost ? this.$store.state.currentPost.title : ''
+    },
+    content() {
       const postContent = this.$store.state.currentPost;
       if (postContent) {
         return converter.makeHtml(postContent.content);
@@ -22,7 +28,7 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.content
+.post
   width 1080px
   margin auto
 </style>
