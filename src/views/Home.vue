@@ -75,9 +75,13 @@ a
   display flex
   align-items center
   justify-content space-between
+  position relative
+  padding-right 16em
 .post:hover>.post-action
   display inline
 .post-action
+  position absolute
+  right 0
   display none
   margin-left 1em
   button 
