@@ -8,6 +8,7 @@
               <router-link :to="{ name: 'detail', params: { id: encodeURIComponent(post._id) }}">
                   {{ post.title }}
               </router-link>
+              <span class="post-time">{{ post.createTime | formatTime }}</span>
               <span v-if="isLogin" class="post-action">
                 <button @click="editPost(post._id)">edit</button>
                 <button @click="deletePost(post._id)">delete</button>
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import format from 'date-fns/format';
 import { deletePost } from '../api';
 import User from '../util/user.js';
 
@@ -46,6 +48,11 @@ export default {
       });
     }
   },
+  filters: {
+    formatTime(time) {
+      return format(new Date(time), 'YYYY/MM/DD')
+    }
+  },
   asyncData({ store }) {
     return store.dispatch('FETCH_POST_LIST');
   },
@@ -67,6 +74,7 @@ a
   height 2em
   display flex
   align-items center
+  justify-content space-between
 .post:hover>.post-action
   display inline
 .post-action

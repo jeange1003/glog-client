@@ -3,6 +3,7 @@ import { fetchPosts, fetchPost, creatPost, updatePost } from '../api';
 export default {
   FETCH_POST_LIST: ({ commit }) => {
     return fetchPosts().then(posts => {
+      posts.sort((a, b) => new Date(b.createTime) - new Date(a.createTime))
       commit('SET_POST_LIST', posts);
     });
   },
